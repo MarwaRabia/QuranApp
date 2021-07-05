@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/fahrs"
+        android:icon="@drawable/fahrs"
+        android:title="الفهرس" />
+
+    <item
+        android:id="@+id/previous_ward"
+        android:icon="@drawable/previous_ward"
+        android:title="مراجعة" />
+
+    <item
+        android:id="@+id/ward"
+        android:icon="@drawable/ward"
+        android:title="ورد اليوم" />
+
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/settings"
+        android:title="الاعدادات" />
+
+</menu>

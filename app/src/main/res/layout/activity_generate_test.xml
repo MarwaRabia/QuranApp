@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/_12sdp">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_130sdp"
+            android:background="@color/white"
+            android:scaleType="centerInside"
+            android:src="@drawable/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lalezar_regular"
+            android:gravity="center"
+            android:text="ادخل بيانات الامتحان"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logo" />
+
+        <TextView
+            android:id="@+id/start_q"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/start_q"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintTop_toBottomOf="@id/app_name" />
+
+        <TextView
+            android:id="@+id/end_q"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/end_q"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintTop_toBottomOf="@id/view1" />
+
+        <TextView
+            android:id="@+id/q_type"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/q_type"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintTop_toBottomOf="@id/view2" />
+
+        <TextView
+            android:id="@+id/q_difficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/q_difficulty"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintTop_toBottomOf="@id/view3" />
+
+        <TextView
+            android:id="@+id/q_num"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/q_num"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintTop_toBottomOf="@id/view4" />
+
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_13sdp"
+            android:background="@color/verdigris"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinner_sura_name_start" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_13sdp"
+            android:background="@color/verdigris"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinner_sura_name_end" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_13sdp"
+            android:background="@color/verdigris"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/q_type" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_13sdp"
+            android:background="@color/verdigris"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/q_difficulty" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_generate_test"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:background="@color/verdigris"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/show_test"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/q_num" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.98" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.02" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_center_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".35" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.73" />
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/spinner_sura_name_start"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:background="@drawable/background_sp"
+            android:drawableStart="@drawable/arrow"
+            android:drawablePadding="@dimen/_12sdp"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:hint="@string/sura_name"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_8sdp"
+            android:textColor="@color/verdigris"
+            android:textColorHint="@color/manatee_1"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_text"
+            app:layout_constraintStart_toStartOf="@id/guide_line_center_spinner"
+            app:layout_constraintTop_toBottomOf="@id/app_name" />
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/spinner_aya_num_start"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:background="@drawable/background_sp"
+            android:drawableStart="@drawable/arrow"
+            android:drawablePadding="@dimen/_12sdp"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:hint="@string/aya_num"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_8sdp"
+            android:textColor="@color/verdigris"
+            android:textColorHint="@color/manatee_1"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_center_spinner"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/app_name" />
+
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/spinner_sura_name_end"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:background="@drawable/background_sp"
+            android:drawableStart="@drawable/arrow"
+            android:drawablePadding="@dimen/_12sdp"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:hint="@string/sura_name"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_8sdp"
+            android:textColor="@color/verdigris"
+            android:textColorHint="@color/manatee_1"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_text"
+            app:layout_constraintStart_toStartOf="@id/guide_line_center_spinner"
+            app:layout_constraintTop_toBottomOf="@id/view1" />
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/spinner_aya_num_end"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:background="@drawable/background_sp"
+            android:drawableStart="@drawable/arrow"
+            android:drawablePadding="@dimen/_12sdp"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:hint="@string/aya_num"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_8sdp"
+            android:textColor="@color/verdigris"
+            android:textColorHint="@color/manatee_1"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_center_spinner"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/view1" />
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/spinner_q_type"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:background="@drawable/background_sp"
+            android:drawableStart="@drawable/arrow"
+            android:drawablePadding="@dimen/_12sdp"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:hint="@string/q_type"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_8sdp"
+            android:textColor="@color/verdigris"
+            android:textColorHint="@color/manatee_1"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_text"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/view2" />
+
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/spinner_q_difficulty"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:background="@drawable/background_sp"
+            android:drawableStart="@drawable/arrow"
+            android:drawablePadding="@dimen/_12sdp"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:hint="@string/q_difficulty"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_8sdp"
+            android:textColor="@color/verdigris"
+            android:textColorHint="@color/manatee_1"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_text"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/view3" />
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/spinner_q_num"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:background="@drawable/background_sp"
+            android:drawableStart="@drawable/arrow"
+            android:drawablePadding="@dimen/_12sdp"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:hint="@string/q_num"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_8sdp"
+            android:textColor="@color/verdigris"
+            android:textColorHint="@color/manatee_1"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_text"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/view4" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
