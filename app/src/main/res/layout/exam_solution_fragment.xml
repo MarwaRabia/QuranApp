@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F6F8"
+    android:fillViewport="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/quran_solution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/answers"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.97" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/answers_recycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:focusable="false"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/quran_solution" />
+
+        <TextView
+            android:id="@+id/total_score_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/total_score"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintTop_toBottomOf="@id/answers_recycler" />
+
+        <TextView
+            android:id="@+id/total_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toStartOf="@id/total_score_text"
+            app:layout_constraintTop_toBottomOf="@id/answers_recycler" />
+
+        <TextView
+            android:id="@+id/congrats"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:background="@color/white"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:padding="@dimen/_28sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/total_score_text" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_next_again"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_margin="@dimen/_12sdp"
+            android:background="@color/verdigris"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/congrats" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

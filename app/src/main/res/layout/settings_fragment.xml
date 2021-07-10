@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_line_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.97" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_line_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.03" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/plan_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_6sdp"
+        android:background="@drawable/border"
+        android:paddingBottom="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/plan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cairo_bold"
+            android:padding="@dimen/_8sdp"
+            android:text="@string/plan"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sura_name_aya_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:padding="@dimen/_4sdp"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/plan" />
+
+
+        <TextView
+            android:id="@+id/page_no_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:padding="@dimen/_4sdp"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/plan" />
+
+
+        <TextView
+            android:id="@+id/sura_name_aya_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:padding="@dimen/_4sdp"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sura_name_aya_start" />
+
+
+        <TextView
+            android:id="@+id/page_no_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:padding="@dimen/_4sdp"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sura_name_aya_start" />
+
+        <TextView
+            android:id="@+id/daily_ward"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:textStyle="bold"
+            android:fontFamily="@font/cairo_bold"
+            android:padding="@dimen/_4sdp"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sura_name_aya_end" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/change_plan_button"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_margin="@dimen/_12sdp"
+            android:background="@color/davygrey"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/change_plan"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/daily_ward" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_6sdp"
+        android:background="@drawable/border"
+        android:paddingBottom="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/plan_layout">
+
+        <TextView
+            android:id="@+id/account_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:padding="@dimen/_8sdp"
+            android:text="نوع الحساب: حافظ للقران (طالب)"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/change_account_type_button"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_margin="@dimen/_12sdp"
+            android:background="@color/davygrey"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/change_account"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/account_type" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

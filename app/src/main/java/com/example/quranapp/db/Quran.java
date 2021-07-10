@@ -1,5 +1,10 @@
 package com.example.quranapp.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.example.quranapp.ui.showTest.ChooseQuestionItem;
+
 public class Quran {
 
     private int id, suraNo, ayaNo, verseId, jozz, page, line;

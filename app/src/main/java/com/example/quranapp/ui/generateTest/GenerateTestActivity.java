@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.quranapp.R;
 import com.example.quranapp.db.DbHandler;
 import com.example.quranapp.db.Quran;
+import com.example.quranapp.prefs.Constant;
 import com.example.quranapp.ui.showTest.ChooseQuestionItem;
 import com.example.quranapp.ui.showTest.ShowTestActivity;
 import com.reginald.editspinner.EditSpinner;
@@ -76,13 +77,13 @@ public class GenerateTestActivity extends AppCompatActivity {
 
         // sura name start list
         ArrayAdapter<String> suraNameStartAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, generateQuestion.getSuraNameList());
+                android.R.layout.simple_spinner_dropdown_item, new Constant().getSuraNameList());
 
         suraNameStartEditSpinner.setAdapter(suraNameStartAdapter);
 
         // sura name start list
         ArrayAdapter<String> suraNameEndAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, generateQuestion.getSuraNameList());
+                android.R.layout.simple_spinner_dropdown_item, new Constant().getSuraNameList());
         suraNameEndEditSpinner.setAdapter(suraNameEndAdapter);
 
         // question type
@@ -258,29 +259,36 @@ public class GenerateTestActivity extends AppCompatActivity {
         if (questionDifficulty.equals("سهل")) {
 
             if (questionType.equals("أكمل")) {
-                generateQuestionListComplete = generateQuestion.generateQuestionListComplete(easyQuestions, 3, questionNum);
+                generateQuestionListComplete = generateQuestion.generateQuestionListComplete
+                        (easyQuestions, 3, questionNum).getQuestionList();
             } else if (questionType.equals("اختياري (اسم السورة)")) {
                 generateQuestionListChoose = generateQuestion.generateQuestionListChoose(easyQuestions, questionNum);
             } else if (questionType.equals("أكمل نهاية الآيات")) {
-                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd(easyQuestions, questionNum);
+                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd
+                        (easyQuestions, questionNum).getQuestionList();
             } else {
-                generateQuestionListComplete = generateQuestion.generateQuestionListComplete(easyQuestions, 3, questionNum);
+                generateQuestionListComplete = generateQuestion.generateQuestionListComplete
+                        (easyQuestions, 3, questionNum).getQuestionList();
                 generateQuestionListChoose = generateQuestion.generateQuestionListChoose(easyQuestions, questionNum);
-                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd(easyQuestions, questionNum);
+                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd
+                        (easyQuestions, questionNum).getQuestionList();
             }
 
         } else if (questionDifficulty.equals("متوسط")) {
-
             if (questionType.equals("أكمل")) {
-                generateQuestionListComplete = generateQuestion.generateQuestionListComplete(mediumQuestion, 3, questionNum);
+                generateQuestionListComplete = generateQuestion.generateQuestionListComplete
+                        (mediumQuestion.subList(0, mediumQuestion.size() - 3), 3, questionNum).getQuestionList();
             } else if (questionType.equals("اختياري (اسم السورة)")) {
                 generateQuestionListChoose = generateQuestion.generateQuestionListChoose(mediumQuestion, questionNum);
             } else if (questionType.equals("أكمل نهاية الآيات")) {
-                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd(mediumQuestion, questionNum);
+                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd
+                        (mediumQuestion, questionNum).getQuestionList();
             } else {
-                generateQuestionListComplete = generateQuestion.generateQuestionListComplete(mediumQuestion, 3, questionNum);
+                generateQuestionListComplete = generateQuestion.generateQuestionListComplete
+                        (mediumQuestion.subList(0, mediumQuestion.size() - 3), 3, questionNum).getQuestionList();
                 generateQuestionListChoose = generateQuestion.generateQuestionListChoose(mediumQuestion, questionNum);
-                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd(mediumQuestion, questionNum);
+                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd
+                        (mediumQuestion, questionNum).getQuestionList();
             }
 
         } else {

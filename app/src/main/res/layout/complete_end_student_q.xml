@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+
+        <TextView
+            android:id="@+id/quran_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/hafz_test"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/end_of_aya_complete_q"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:gravity="start"
+            android:text="@string/end_of_aya_complete_q"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/quran_test" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/q1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
+            android:background="@drawable/border"
+            android:paddingBottom="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/end_of_aya_complete_q">
+
+            <TextView
+                android:id="@+id/question_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_16ssp"
+                android:text="@string/test_q_choose"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/answer_1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_35sdp"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/answer"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/question_1" />
+
+            <EditText
+                android:id="@+id/answer_edit_text_1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_35sdp"
+                android:background="#F1EEEE"
+                android:hint="@string/enter_answer"
+                android:lines="1"
+                android:padding="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/davygrey"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/answer_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/question_1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/q2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_6sdp"
+            android:background="@drawable/border"
+            android:paddingBottom="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/q1">
+
+            <TextView
+                android:id="@+id/question_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_16ssp"
+                android:text="@string/test_q_choose"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/answer_2"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_35sdp"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/answer"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/question_2" />
+
+            <EditText
+                android:id="@+id/answer_edit_text_2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_35sdp"
+                android:background="#F1EEEE"
+                android:hint="@string/enter_answer"
+                android:lines="1"
+                android:padding="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/davygrey"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/answer_2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/question_2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/q3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_6sdp"
+            android:background="@drawable/border"
+            android:paddingBottom="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/q2">
+
+            <TextView
+                android:id="@+id/question_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_16ssp"
+                android:text="@string/test_q_choose"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/answer_3"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_35sdp"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/answer"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/question_3" />
+
+            <EditText
+                android:id="@+id/answer_edit_text_3"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_35sdp"
+                android:background="#F1EEEE"
+                android:hint="@string/enter_answer"
+                android:lines="1"
+                android:padding="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/davygrey"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/answer_3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/question_3" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/q4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_6sdp"
+            android:background="@drawable/border"
+            android:paddingBottom="@dimen/_12sdp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/q3">
+
+            <TextView
+                android:id="@+id/question_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_16ssp"
+                android:text="@string/test_q_choose"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/answer_4"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_35sdp"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/answer"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/question_4" />
+
+            <EditText
+                android:id="@+id/answer_edit_text_4"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_35sdp"
+                android:background="#F1EEEE"
+                android:hint="@string/enter_answer"
+                android:lines="1"
+                android:padding="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/davygrey"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/answer_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/question_4" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_submit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:layout_weight="1"
+            android:background="@color/verdigris"
+            android:gravity="center"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/q4" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

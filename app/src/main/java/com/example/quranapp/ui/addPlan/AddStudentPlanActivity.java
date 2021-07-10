@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quranapp.R;
 import com.example.quranapp.db.DbHandler;
+import com.example.quranapp.prefs.Constant;
 import com.example.quranapp.prefs.PreferencesHelperImp;
 import com.example.quranapp.ui.generateTest.GenerateQuestion;
 import com.example.quranapp.ui.studentHome.StudentHomeActivity;
@@ -35,8 +36,6 @@ public class AddStudentPlanActivity extends AppCompatActivity {
     private ArrayList<Integer> ayaNumStartArrayList, ayaNumEndArrayList;
     private ArrayList<String> amountHafzTypeArrayList;
     private ArrayAdapter<Integer> ayaNumStartAdapter, ayaNumEndAdapter;
-
-    private GenerateQuestion generateQuestion;
     private DbHandler dbHandler;
     private int planTimeCount, verseCount;
 
@@ -46,16 +45,8 @@ public class AddStudentPlanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_add_plan);
 
         initViews();
-        createInstance();
         setUpDataSpinner();
         setListeners();
-    }
-
-    private void createInstance() {
-        dbHandler = new DbHandler(AddStudentPlanActivity.this);
-        dbHandler.getWritableDatabase();
-
-        generateQuestion = new GenerateQuestion(dbHandler, AddStudentPlanActivity.this);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -172,7 +163,8 @@ public class AddStudentPlanActivity extends AppCompatActivity {
                 if (suraIdStart != null && ayaIdStart != null && suraIdEnd != null
                         && ayaIdEnd != null && wardCountType != null && !wardCount.isEmpty()) {
 
-                    Plan plan = new Plan(keyIdStart, keyIdEnd, wardCount, wardCountType, String.valueOf(planTimeCount));
+                    Plan plan = new Plan(keyIdStart, keyIdEnd, wardCount, wardCountType,
+                            String.valueOf(planTimeCount));
                     Gson gson = new Gson();
                     String json = gson.toJson(plan);
                     PreferencesHelperImp.getInstance().setStudentPlan(json);
@@ -188,15 +180,18 @@ public class AddStudentPlanActivity extends AppCompatActivity {
 
 
     private void setUpDataSpinner() {
+        dbHandler = new DbHandler(this);
+        dbHandler.getWritableDatabase();
+
         // sura name start list
         ArrayAdapter<String> suraNameStartAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, generateQuestion.getSuraNameList());
+                android.R.layout.simple_spinner_dropdown_item, new Constant().getSuraNameList());
 
         suraNameStartEditSpinner.setAdapter(suraNameStartAdapter);
 
         // sura name start list
         ArrayAdapter<String> suraNameEndAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, generateQuestion.getSuraNameList());
+                android.R.layout.simple_spinner_dropdown_item, new Constant().getSuraNameList());
         suraNameEndEditSpinner.setAdapter(suraNameEndAdapter);
 
         // amount hafz type
@@ -213,7 +208,7 @@ public class AddStudentPlanActivity extends AppCompatActivity {
         ayaNameEndEditSpinner = findViewById(R.id.spinner_aya_num_end);
         amountHafzTypeEditSpinner = findViewById(R.id.spinner_hafz_type);
         startHafzButton = findViewById(R.id.start_hafz_button);
-        wardCountEditText = findViewById(R.id.amount_hafz_edit);
+        wardCountEditText = findViewById(R.id.count_edit);
         planTimeTextView = findViewById(R.id.amount_of_time);
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -54,14 +55,16 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (sheikhCardView.isChecked()) {
-                    PreferencesHelperImp.getInstance().setAccountType(Constant.SHEIKH);
                     startActivity(new Intent(StartActivity.this, SheikhHomeActivity.class));
                     finish();
-                } else {
+                    PreferencesHelperImp.getInstance().setAccountType(new Constant().SHEIKH);
+                } else if (studentCardView.isChecked()) {
                     //student
-                    PreferencesHelperImp.getInstance().setAccountType(Constant.STUDENT);
                     startActivity(new Intent(StartActivity.this, AddStudentPlanActivity.class));
                     finish();
+                    PreferencesHelperImp.getInstance().setAccountType(new Constant().STUDENT);
+                } else {
+                    Toast.makeText(StartActivity.this, "من فضلك اختار أولا ", Toast.LENGTH_SHORT).show();
                 }
             }
         });

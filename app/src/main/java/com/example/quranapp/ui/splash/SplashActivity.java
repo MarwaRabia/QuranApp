@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
     private void checkIfUserHasAccountAndPlan() {
         String accountType = PreferencesHelperImp.getInstance().getAccountType();
         if (accountType != null) {
-            if (accountType.equals(Constant.SHEIKH)) {
+            if (accountType.equals(new Constant().SHEIKH)) {
                 startActivity(new Intent(SplashActivity.this, SheikhHomeActivity.class));
                 finish();
             } else {
@@ -55,6 +55,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
         } else {
+            // first time
             startActivity(new Intent(SplashActivity.this, StartActivity.class));
             finish();
         }

@@ -1,8 +1,6 @@
 package com.example.quranapp.ui.studentHome.ward;
 
-import android.content.LocusId;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -20,17 +17,18 @@ import com.example.quranapp.db.DbHandler;
 import com.example.quranapp.db.Quran;
 import com.example.quranapp.prefs.PreferencesHelperImp;
 import com.example.quranapp.ui.addPlan.Plan;
-import com.example.quranapp.ui.generateTest.GenerateTestActivity;
 import com.example.quranapp.ui.studentHome.fahrs.SuraFragment;
 import com.google.gson.Gson;
 
 import java.util.List;
 
 public class WardFragment extends Fragment {
-    private String ayaStart, ayaEnd, suraNameStart, suraNameEnd, ayaNoStart, ayaNoEnd, pageStart, pageEnd;
+    private String ayaStart, ayaEnd, suraNameStart, suraNameEnd, ayaNoStart, ayaNoEnd,
+            pageStart, pageEnd, keyIdStartWard, keyIdEndWard;
     private TextView ayaStartTextView, ayaEndTextView, pageNoEndTextView, pageNoStartTextView,
             suraNameStartTextView, suraNameEndTextView;
-    private Button hafzWardButton;
+    private Button hafzWardButton, hafzDoneButton;
+    private Quran quranEnd, quranStart;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -55,6 +53,22 @@ public class WardFragment extends Fragment {
 
             }
         });
+
+        hafzDoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StudentCompleteExamFragment studentCompleteExamFragment = new StudentCompleteExamFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("keyIdStartWard", keyIdStartWard);
+                bundle.putString("keyIdEndWard", keyIdEndWard);
+                studentCompleteExamFragment.setArguments(bundle);
+
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.add(R.id.fragment_container, studentCompleteExamFragment, "StudentCompleteExamFragment").commit();
+
+            }
+        });
     }
 
     @Override
@@ -73,6 +87,7 @@ public class WardFragment extends Fragment {
         suraNameStartTextView = view.findViewById(R.id.sura_name_aya_start);
         suraNameEndTextView = view.findViewById(R.id.sura_name_aya_end);
         hafzWardButton = view.findViewById(R.id.button_hafz_ward);
+        hafzDoneButton = view.findViewById(R.id.button_hafz_done);
     }
 
     private void calculateWardHafzData() {
@@ -82,38 +97,40 @@ public class WardFragment extends Fragment {
         String json = PreferencesHelperImp.getInstance().getStudentPlan();
         Gson gson = new Gson();
         Plan plan = gson.fromJson(json, Plan.class);
+
         int wardCount = Integer.parseInt(plan.getWardCount());
         String wardCountType = plan.getWardCountType();
-        String keyIdStart = plan.getKeyIdStart();
         String keyIdEnd = plan.getKeyIdEnd();
 
-        Quran quranStart = dbHandler.getQuranRow(keyIdStart);
+        String newWardStartId = PreferencesHelperImp.getInstance().getNewWardStartId();
+        if (newWardStartId != null) {
+            keyIdStartWard = newWardStartId;
+        } else {
+            keyIdStartWard = plan.getKeyIdStart();
+        }
+        quranStart = dbHandler.getQuranRow(keyIdStartWard);
 
         ayaStart = quranStart.getTextEmlaey();
         pageStart = String.valueOf(quranStart.getPage());
         ayaNoStart = String.valueOf(quranStart.getAyaNo());
         suraNameStart = quranStart.getSuraNameAr();
 
-
         // ayaEnd
         if (wardCountType.equals("صفحة")) {
             int pageEndInt = Integer.parseInt(pageStart) + wardCount - 1;
-            pageEnd = String.valueOf(pageEndInt);
+
             int allWardEnd = dbHandler.getQuranRow(keyIdEnd).getPage();
             if (pageEndInt > allWardEnd) {
                 pageEndInt = allWardEnd;
             }
-            List<Quran> quranList = dbHandler.getAllAyatInsidePage(pageEnd);
 
-            Quran quranEnd = quranList.get(quranList.size() - 1);
-            ayaEnd = quranEnd.getTextEmlaey();
-            ayaNoEnd = String.valueOf(quranEnd.getAyaNo());
-            suraNameEnd = quranEnd.getSuraNameAr();
+            List<Quran> quranList = dbHandler.getAllAyatInsidePage(String.valueOf(pageEndInt));
+
+            quranEnd = quranList.get(quranList.size() - 1);
 
         } else if (wardCountType.equals("ربع")) {
             int verseCount = 0;
-            Quran quranEnd = null;
-            int idStart = Integer.parseInt(keyIdStart);
+            int idStart = Integer.parseInt(keyIdStartWard);
             int idEnd = Integer.parseInt(keyIdEnd);
 
             for (int i = idStart; i < idEnd; i++) {
@@ -133,16 +150,12 @@ public class WardFragment extends Fragment {
                 //wardCount > verseCount (عدد الارباع كبير أكبر من مقدار الحفظ)
                 quranEnd = dbHandler.getQuranRow(keyIdEnd);
             }
-            pageEnd = String.valueOf(quranEnd.getPage());
-            ayaEnd = quranEnd.getTextEmlaey();
-            ayaNoEnd = String.valueOf(quranEnd.getAyaNo());
-            suraNameEnd = quranEnd.getSuraNameAr();
         } else {
             //حزء
             int jozzStart = quranStart.getJozz();
             int jozzCount = 0;
-            Quran quranEnd = null;
-            int idStart = Integer.parseInt(keyIdStart);
+
+            int idStart = Integer.parseInt(keyIdStartWard);
             int idEnd = Integer.parseInt(keyIdEnd);
 
             for (int i = idStart; i < idEnd; i++) {
@@ -163,12 +176,14 @@ public class WardFragment extends Fragment {
                 //wardCount > jozzCount (عدد الاجزاء كبير أكبر من مقدار الحفظ)
                 quranEnd = dbHandler.getQuranRow(keyIdEnd);
             }
-            pageEnd = String.valueOf(quranEnd.getPage());
-            ayaEnd = quranEnd.getTextEmlaey();
-            ayaNoEnd = String.valueOf(quranEnd.getAyaNo());
-            suraNameEnd = quranEnd.getSuraNameAr();
         }
 
+        keyIdEndWard = String.valueOf(quranEnd.getId());
+        PreferencesHelperImp.getInstance().setWardEndId(keyIdEndWard);
+        pageEnd = String.valueOf(quranEnd.getPage());
+        ayaEnd = quranEnd.getTextEmlaey();
+        ayaNoEnd = String.valueOf(quranEnd.getAyaNo());
+        suraNameEnd = quranEnd.getSuraNameAr();
 
         String[] splitStartQuestion = ayaStart.split("\\s+");
         String[] splitEndQuestion = ayaEnd.split("\\s+");
@@ -179,7 +194,7 @@ public class WardFragment extends Fragment {
 
         if (splitStartQuestion.length > 5)
             ayaStart = splitStartQuestion[0] + " " + splitStartQuestion[1] + " " + splitStartQuestion[2] +
-                    " " + splitStartQuestion[3]+ " " + splitStartQuestion[4]+ " " + splitStartQuestion[5];
+                    " " + splitStartQuestion[3] + " " + splitStartQuestion[4] + " " + splitStartQuestion[5];
 
         ayaStartTextView.setText("\" " + ayaStart + "\"");
         ayaEndTextView.setText("\" " + ayaEnd + "\"");
