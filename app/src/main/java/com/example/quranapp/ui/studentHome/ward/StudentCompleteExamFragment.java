@@ -1,7 +1,6 @@
 package com.example.quranapp.ui.studentHome.ward;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +29,7 @@ import com.example.quranapp.ui.generateTest.GenerateQuestion;
 import com.example.quranapp.ui.generateTest.QuestionAndAnswer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StudentCompleteExamFragment extends Fragment {
     private final int REQ_CODE_1 = 100;
@@ -39,7 +39,7 @@ public class StudentCompleteExamFragment extends Fragment {
     private EditText answerQ1EditText, answerQ2EditText;
     private TextView question1TextView, question2TextView;
     private String keyIdStartWard, keyIdEndWard;
-    private QuestionAndAnswer questionAndAnswer;
+    private List<QuestionAndAnswer> questionAndAnswerList;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -183,8 +183,8 @@ public class StudentCompleteExamFragment extends Fragment {
         userAnswersList.add(userAnswer2);
         PreferencesHelperImp.getInstance().setUserAnswersQ1_Q2(userAnswersList);
 
-        String correctAnswer1 = questionAndAnswer.getAnswerList().get(0);
-        String correctAnswer2 = questionAndAnswer.getAnswerList().get(1);
+        String correctAnswer1 = questionAndAnswerList.get(0).getAnswer();
+        String correctAnswer2 = questionAndAnswerList.get(1).getAnswer();
         ArrayList<String> correctAnswersList = new ArrayList<>();
         correctAnswersList.add(correctAnswer1);
         correctAnswersList.add(correctAnswer2);
@@ -194,7 +194,6 @@ public class StudentCompleteExamFragment extends Fragment {
     private void generateQuestion() {
         DbHandler dbHandler = new DbHandler(getActivity());
         dbHandler.getWritableDatabase();
-        questionAndAnswer = new QuestionAndAnswer();
         GenerateQuestion generateQuestion = new GenerateQuestion(dbHandler, getActivity());
 
         ArrayList<String> mediumQuestion = new ArrayList<>();
@@ -205,11 +204,11 @@ public class StudentCompleteExamFragment extends Fragment {
             Quran question = dbHandler.getQuranRow(String.valueOf(i));
             mediumQuestion.add(question.getTextEmlaey());
         }
-        questionAndAnswer = generateQuestion.generateQuestionListComplete
+        questionAndAnswerList = generateQuestion.generateQuestionListComplete
                 (mediumQuestion, 3, 2);
 
-        question1TextView.setText(questionAndAnswer.getQuestionList().get(0));
-        question2TextView.setText(questionAndAnswer.getQuestionList().get(1));
+        question1TextView.setText(questionAndAnswerList.get(0).getQuestion());
+        question2TextView.setText(questionAndAnswerList.get(1).getQuestion());
     }
 
 }

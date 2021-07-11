@@ -18,10 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quranapp.R;
+import com.example.quranapp.ui.generateTest.QuestionAndAnswer;
 import com.example.quranapp.ui.sheikhHome.SheikhHomeActivity;
-import com.example.quranapp.ui.start.StartActivity;
-import com.independentsoft.office.ExtendedBoolean;
-import com.independentsoft.office.word.AbsolutePositionTab;
 import com.independentsoft.office.word.AbsolutePositionTabAlignment;
 import com.independentsoft.office.word.Run;
 import com.independentsoft.office.word.WordDocument;
@@ -37,6 +35,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,7 +43,7 @@ public class ShowTestActivity extends AppCompatActivity {
     private RecyclerView completeQRecyclerView, endOfAyaCompleteRecyclerView, chooseQRecyclerView;
     private TextView completeQTextView, endOfAyaCompleteTextView, chooseQTextView;
 
-    private List<String> generateQuestionListComplete, generateQuestionListCompleteEnd;
+    private List<QuestionAndAnswer> generateListComplete, generateListCompleteEnd;
     private List<ChooseQuestionItem> generateQuestionListChoose;
 
     private ChooseQAdapter chooseQAdapter;
@@ -60,8 +59,8 @@ public class ShowTestActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         generateQuestionListChoose = bundle.getParcelableArrayList("generateQuestionListChoose");
-        generateQuestionListComplete = getIntent().getStringArrayListExtra("generateQuestionListComplete");
-        generateQuestionListCompleteEnd = getIntent().getStringArrayListExtra("generateQuestionListCompleteEnd");
+        generateListComplete = bundle.getParcelableArrayList("generateQuestionListComplete");
+        generateListCompleteEnd = bundle.getParcelableArrayList("generateQuestionListCompleteEnd");
 
         initViews();
         setUpRecyclerView();
@@ -81,11 +80,15 @@ public class ShowTestActivity extends AppCompatActivity {
 
     private void setUpRecyclerView() {
 
-        if (generateQuestionListComplete != null) {
+        if (generateListComplete != null) {
+            List<String> generateQuestionListComplete = new ArrayList<>();
             LinearLayoutManager layoutManager
                     = new LinearLayoutManager(ShowTestActivity.this, LinearLayoutManager.VERTICAL, false);
             completeQRecyclerView.setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
 
+            for (int i = 0; i < generateListComplete.size(); i++) {
+                generateQuestionListComplete.add(generateListComplete.get(i).getQuestion());
+            }
             quranAdapter = new QuranAdapter(generateQuestionListComplete);
             completeQRecyclerView.setAdapter(quranAdapter);
 
@@ -96,11 +99,16 @@ public class ShowTestActivity extends AppCompatActivity {
             completeQRecyclerView.setVisibility(View.GONE);
         }
 
-        if (generateQuestionListCompleteEnd != null) {
+        if (generateListCompleteEnd != null) {
+            List<String> generateQuestionListCompleteEnd = new ArrayList<>();
+
             LinearLayoutManager layoutManager
                     = new LinearLayoutManager(ShowTestActivity.this, LinearLayoutManager.VERTICAL, false);
             endOfAyaCompleteRecyclerView.setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
 
+            for (int i = 0; i < generateListCompleteEnd.size(); i++) {
+                generateQuestionListCompleteEnd.add(generateListCompleteEnd.get(i).getQuestion());
+            }
             quranAdapter = new QuranAdapter(generateQuestionListCompleteEnd);
             endOfAyaCompleteRecyclerView.setAdapter(quranAdapter);
 
@@ -132,7 +140,8 @@ public class ShowTestActivity extends AppCompatActivity {
         downloadPdfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StringBuilder dataExam = generateTestAsStringBuilder();
+                StringBuilder dataExamQuestion = generateQuestionsAsStringBuilder();
+                StringBuilder dataExamAnswer = generateAnswersAsStringBuilder();
 
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                     if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
@@ -140,10 +149,12 @@ public class ShowTestActivity extends AppCompatActivity {
                         String[] permissions = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
                         requestPermissions(permissions, STORAGE_CODE_PDF);
                     } else {
-                        savepdf(dataExam.toString());
+                        downloadQuestionsPDFpdf(dataExamQuestion.toString());
+                        downloadAnswersPDFpdf(dataExamAnswer.toString());
                     }
                 } else {
-                    savepdf(dataExam.toString());
+                    downloadQuestionsPDFpdf(dataExamQuestion.toString());
+                    downloadAnswersPDFpdf(dataExamAnswer.toString());
                 }
             }
         });
@@ -151,7 +162,8 @@ public class ShowTestActivity extends AppCompatActivity {
         downloadWordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringBuilder dataExam = generateTestAsStringBuilder();
+                StringBuilder dataExamQuestion = generateQuestionsAsStringBuilder();
+                StringBuilder dataExamAnswer = generateAnswersAsStringBuilder();
 
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                     if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
@@ -159,39 +171,83 @@ public class ShowTestActivity extends AppCompatActivity {
                         String[] permissions = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
                         requestPermissions(permissions, STORAGE_CODE_WORD);
                     } else {
-                        createDocx(dataExam.toString());
+                        downloadQuestionsWord(dataExamQuestion.toString());
+                        downloadAnswersWord(dataExamAnswer.toString());
                     }
                 } else {
-                    createDocx(dataExam.toString());
+                    downloadQuestionsWord(dataExamQuestion.toString());
+                    downloadAnswersWord(dataExamAnswer.toString());
                 }
-
             }
         });
     }
 
-    private StringBuilder generateTestAsStringBuilder() {
+    private StringBuilder generateAnswersAsStringBuilder() {
+        StringBuilder dataExam = new StringBuilder();
+        dataExam.append("\n");
+        dataExam.append("                              إجابة الاختبار                               ");
+        dataExam.append("\n");
+
+
+        if (generateListComplete != null) {
+            dataExam.append("أكمل هذه الآيات:  ");
+            dataExam.append("\n");
+            for (int i = 0; i < generateListComplete.size(); i++) {
+                dataExam.append(convertToArabic(i + 1)).append(".  ")
+                        .append(generateListComplete.get(i).getAnswer())
+                        .append("\n");
+            }
+            dataExam.append("________________________________\n");
+        }
+
+        if (generateListCompleteEnd != null) {
+            dataExam.append("أكمل نهاية الأيات : ");
+            dataExam.append("\n");
+            for (int i = 0; i < generateListCompleteEnd.size(); i++) {
+                dataExam.append(convertToArabic(i + 1)).append(".  ")
+                        .append(generateListCompleteEnd.get(i).getAnswer())
+                        .append("\n");
+            }
+            dataExam.append("________________________________\n");
+        }
+
+        if (generateQuestionListChoose != null) {
+            dataExam.append("اختر اسم السورة:  ");
+            dataExam.append("\n");
+            for (int i = 0; i < generateQuestionListChoose.size(); i++) {
+                dataExam.append(convertToArabic(i + 1)).append(".  ")
+                        .append(generateQuestionListChoose.get(i).getCorrectAnswer())
+                        .append("\n");
+            }
+            dataExam.append("________________________________\n");
+        }
+
+        return dataExam;
+    }
+
+    private StringBuilder generateQuestionsAsStringBuilder() {
         StringBuilder dataExam = new StringBuilder();
         dataExam.append("\n");
         dataExam.append("                              اختبار حفظ القرآن                              ");
         dataExam.append("\n");
 
 
-        if (generateQuestionListComplete != null) {
+        if (generateListComplete != null) {
             dataExam.append("أكمل هذه الآيات:  ");
             dataExam.append("\n");
-            for (int i = 0; i < generateQuestionListComplete.size(); i++) {
+            for (int i = 0; i < generateListComplete.size(); i++) {
                 dataExam.append(convertToArabic(i + 1)).append(".  ")
-                        .append(generateQuestionListComplete.get(i))
+                        .append(generateListComplete.get(i).getQuestion())
                         .append("\n________________________________\n");
             }
         }
 
-        if (generateQuestionListCompleteEnd != null) {
+        if (generateListCompleteEnd != null) {
             dataExam.append("أكمل نهاية الأيات : ");
             dataExam.append("\n");
-            for (int i = 0; i < generateQuestionListCompleteEnd.size(); i++) {
+            for (int i = 0; i < generateListCompleteEnd.size(); i++) {
                 dataExam.append(convertToArabic(i + 1)).append(".  ")
-                        .append(generateQuestionListCompleteEnd.get(i))
+                        .append(generateListCompleteEnd.get(i).getQuestion())
                         .append("\n________________________________\n");
             }
         }
@@ -213,15 +269,15 @@ public class ShowTestActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void savepdf(String data) {
+    public void downloadQuestionsPDFpdf(String data) {
         String mfilePath1 = Environment.getExternalStorageDirectory().getPath() + "/quran.exams.pdf/";
         File file = new File(mfilePath1);
         if (!file.exists()) {
             file.mkdirs();
         }
-        String mfilename = "QuranTest" + UUID.randomUUID().toString().substring(0, 4);
+        String q_filename = "Test Questions_" + UUID.randomUUID().toString().substring(0, 4);
 
-        String targetPdf = mfilePath1 + mfilename + ".pdf";
+        String targetPdf = mfilePath1 + q_filename + ".pdf";
         File mfilePath = new File(targetPdf);
 
         try {
@@ -248,23 +304,84 @@ public class ShowTestActivity extends AppCompatActivity {
             document.add(table);
             // step 6
             document.close();
-            Toast.makeText(this, mfilename + ".pdf\n is saved to \n" + mfilePath, Toast.LENGTH_SHORT).show();
-
-            startActivity(new Intent(ShowTestActivity.this, SheikhHomeActivity.class));
-            finish();
+            Toast.makeText(this, q_filename + ".pdf\n is saved to \n" + mfilePath, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.e("PDF", "savepdf: " + e.getMessage());
         }
     }
 
+    private void downloadAnswersPDFpdf(String data) {
+        String mfilePath1 = Environment.getExternalStorageDirectory().getPath() + "/quran.exams.pdf/";
+        File file = new File(mfilePath1);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        String q_filename = "Test Answers_" + UUID.randomUUID().toString().substring(0, 4);
+
+        String targetPdf = mfilePath1 + q_filename + ".pdf";
+        File mfilePath = new File(targetPdf);
+
+        try {
+            // document
+            Document document = new Document(PageSize.A4, 0f, 0f, 0f, 0f);
+            document.setMargins(22, 22, 22, 22);
+            //writer
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(mfilePath));
+            writer.setInitialLeading(24.5f);
+            writer.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
+            // step 4
+            document.open();
+            // step 5
+            //try adding new table
+            PdfPTable table = new PdfPTable(1);
+            table.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
+            Font f = new Font(BaseFont.createFont("assets/fonts/trado.otf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED));
+
+            f.setSize(26.0f);
+            PdfPCell cell = new PdfPCell(new Paragraph(data.replaceAll("\n", "\n\n"), f));
+            cell.setPaddingBottom(8);
+            cell.setBorder(Rectangle.NO_BORDER);
+            table.addCell(cell);
+            document.add(table);
+            // step 6
+            document.close();
+            Toast.makeText(this, q_filename + ".pdf\n is saved to \n" + mfilePath, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("PDF", "savepdf: " + e.getMessage());
+        }
+
+    }
+
     // creat  word file
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void createDocx(String lines) {
-        String filePath = getExternalPath();
+    private void downloadQuestionsWord(String lines) {
+        String filePath = getExternalPath("Test Questions");
         try {
             WordDocument doc = new WordDocument();
             Run run = new Run(lines);
+            run.setFontSize(52);
+            run.addAbsolutePositionTab(AbsolutePositionTabAlignment.RIGHT);
+
+            com.independentsoft.office.word.Paragraph paragraph = new com.independentsoft.office.word.Paragraph();
+            paragraph.add(run);
+            doc.getBody().add(paragraph);
+
+            doc.save(filePath, true);
+
+            Toast.makeText(ShowTestActivity.this, "file \n is saved to \n" + filePath, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(ShowTestActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.d("Word", "saveWord: " + e.getMessage());
+        }
+    }
+
+    private void downloadAnswersWord(String data) {
+        String filePath = getExternalPath("Test Answers");
+        try {
+            WordDocument doc = new WordDocument();
+            Run run = new Run(data);
             run.setFontSize(52);
 
             com.independentsoft.office.word.Paragraph paragraph = new com.independentsoft.office.word.Paragraph();
@@ -275,23 +392,22 @@ public class ShowTestActivity extends AppCompatActivity {
             doc.save(filePath, true);
 
             Toast.makeText(ShowTestActivity.this, "file \n is saved to \n" + filePath, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(ShowTestActivity.this, SheikhHomeActivity.class));
-            finish();
         } catch (Exception e) {
             Toast.makeText(ShowTestActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d("Word", "saveWord: " + e.getMessage());
         }
+
     }
 
     // git path of word file
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private String getExternalPath() {
+    private String getExternalPath(String fileName) {
         String mfilePath1 = Environment.getExternalStorageDirectory().getPath() + "/quran.exams.word/";
         File file = new File(mfilePath1);
         if (!file.exists()) {
             file.mkdirs();
         }
-        String mfilename = "QuranTest" + UUID.randomUUID().toString().substring(0, 4);
+        String mfilename = fileName + UUID.randomUUID().toString().substring(0, 4);
         String targetPdf = mfilePath1 + mfilename + ".docx";
         File mfilePath = new File(targetPdf);
         return mfilePath.getPath();

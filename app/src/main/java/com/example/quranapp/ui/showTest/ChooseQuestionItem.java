@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class ChooseQuestionItem implements Parcelable {
 
-    private String question, choose1, choose2, choose3, choose4;
+    private String question, choose1, choose2, choose3, choose4, correctAnswer;
 
     public ChooseQuestionItem() {
     }
@@ -16,14 +16,17 @@ public class ChooseQuestionItem implements Parcelable {
         choose2 = in.readString();
         choose3 = in.readString();
         choose4 = in.readString();
+        correctAnswer = in.readString();
     }
 
-    public ChooseQuestionItem(String question, String choose1, String choose2, String choose3, String choose4) {
+    public ChooseQuestionItem(String question, String choose1, String choose2, String choose3, String choose4
+            , String correctAnswer) {
         this.question = question;
         this.choose1 = choose1;
         this.choose2 = choose2;
         this.choose3 = choose3;
         this.choose4 = choose4;
+        this.correctAnswer = correctAnswer;
     }
 
     public String getQuestion() {
@@ -66,6 +69,14 @@ public class ChooseQuestionItem implements Parcelable {
         this.choose4 = choose4;
     }
 
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -78,16 +89,15 @@ public class ChooseQuestionItem implements Parcelable {
         dest.writeString(choose2);
         dest.writeString(choose3);
         dest.writeString(choose4);
+        dest.writeString(correctAnswer);
     }
 
-    public static final Creator<ChooseQuestionItem> CREATOR = new Creator<ChooseQuestionItem>()
-    {
-        public ChooseQuestionItem createFromParcel(Parcel in)
-        {
+    public static final Creator<ChooseQuestionItem> CREATOR = new Creator<ChooseQuestionItem>() {
+        public ChooseQuestionItem createFromParcel(Parcel in) {
             return new ChooseQuestionItem(in);
         }
-        public ChooseQuestionItem[] newArray(int size)
-        {
+
+        public ChooseQuestionItem[] newArray(int size) {
             return new ChooseQuestionItem[size];
         }
     };

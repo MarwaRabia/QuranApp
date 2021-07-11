@@ -23,6 +23,7 @@ import com.example.quranapp.ui.showTest.ShowTestActivity;
 import com.reginald.editspinner.EditSpinner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GenerateTestActivity extends AppCompatActivity {
 
@@ -35,13 +36,13 @@ public class GenerateTestActivity extends AppCompatActivity {
     private int questionNum;
 
     private Button showTest;
-    private ArrayList<String> questionTypeArrayList, questionDifficultyArrayList, questionTimeArrayList;
+    private ArrayList<String> questionTypeArrayList, questionDifficultyArrayList;
     private ArrayList<Integer> ayaNumStartArrayList, ayaNumEndArrayList, questionNumArrayList;
     private ArrayAdapter<Integer> ayaNumStartAdapter, ayaNumEndAdapter;
     private GenerateQuestion generateQuestion;
     private DbHandler dbHandler;
 
-    private ArrayList<String> generateQuestionListComplete, generateQuestionListCompleteEnd;
+    private ArrayList<QuestionAndAnswer> generateQuestionListComplete, generateQuestionListCompleteEnd;
     private ArrayList<ChooseQuestionItem> generateQuestionListChoose;
 
     @Override
@@ -99,7 +100,7 @@ public class GenerateTestActivity extends AppCompatActivity {
         questionDifficultyArrayList = new ArrayList<>();
         questionDifficultyArrayList.add("سهل");
         questionDifficultyArrayList.add("متوسط");
-        questionDifficultyArrayList.add("متشابهات");
+        questionDifficultyArrayList.add("صعب");
         ArrayAdapter<String> questionDifficultyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, questionDifficultyArrayList);
         questionDifficultyEditSpinner.setAdapter(questionDifficultyAdapter);
 
@@ -200,7 +201,6 @@ public class GenerateTestActivity extends AppCompatActivity {
             }
         });
 
-
         questionNumEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -220,11 +220,12 @@ public class GenerateTestActivity extends AppCompatActivity {
                     Intent intent = new Intent(GenerateTestActivity.this, ShowTestActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putParcelableArrayList("generateQuestionListChoose", generateQuestionListChoose);
+                    bundle.putParcelableArrayList("generateQuestionListComplete", generateQuestionListComplete);
+                    bundle.putParcelableArrayList("generateQuestionListCompleteEnd", generateQuestionListCompleteEnd);
                     intent.putExtras(bundle);
 
-                    intent.putExtra("generateQuestionListComplete", generateQuestionListComplete);
-                    intent.putExtra("generateQuestionListCompleteEnd", generateQuestionListCompleteEnd);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(GenerateTestActivity.this, "Please fill all data first", Toast.LENGTH_SHORT).show();
                 }
@@ -237,20 +238,29 @@ public class GenerateTestActivity extends AppCompatActivity {
 
         // get id for start and end questions
         int startKeyId = dbHandler.getKeyId(suraIdStart, ayaIdStart);
-        Log.i("startKeyId:", "id: = " + startKeyId);
-
         int endKeyId = dbHandler.getKeyId(suraIdEnd, ayaIdEnd);
+
+        if (startKeyId > endKeyId) {
+            startKeyId = dbHandler.getKeyId(suraIdEnd, ayaIdEnd);
+            endKeyId = dbHandler.getKeyId(suraIdStart, ayaIdStart);
+        }
+
+        Log.i("startKeyId:", "id: = " + startKeyId);
         Log.i("endKeyId:", "id: = " + endKeyId);
 
 
         // get questions upon type
         ArrayList<String> easyQuestions = new ArrayList<>();
         ArrayList<String> mediumQuestion = new ArrayList<>();
+        ArrayList<String> difficultQuestions = new ArrayList<>();
 
         for (int i = startKeyId; i < endKeyId; i++) {
             Quran question = dbHandler.getQuranRow(String.valueOf(i));
             if (question.getVerseId() == 1) {
                 easyQuestions.add(question.getTextEmlaey());
+
+                Quran difficultQuestion = dbHandler.getQuranRow(String.valueOf(i - 3));
+                difficultQuestions.add(difficultQuestion.getTextEmlaey());
             }
             mediumQuestion.add(question.getTextEmlaey());
         }
@@ -260,39 +270,60 @@ public class GenerateTestActivity extends AppCompatActivity {
 
             if (questionType.equals("أكمل")) {
                 generateQuestionListComplete = generateQuestion.generateQuestionListComplete
-                        (easyQuestions, 3, questionNum).getQuestionList();
+                        (easyQuestions, 3, questionNum);
             } else if (questionType.equals("اختياري (اسم السورة)")) {
                 generateQuestionListChoose = generateQuestion.generateQuestionListChoose(easyQuestions, questionNum);
             } else if (questionType.equals("أكمل نهاية الآيات")) {
-                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd
-                        (easyQuestions, questionNum).getQuestionList();
+                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd(easyQuestions, questionNum);
             } else {
-                generateQuestionListComplete = generateQuestion.generateQuestionListComplete
-                        (easyQuestions, 3, questionNum).getQuestionList();
-                generateQuestionListChoose = generateQuestion.generateQuestionListChoose(easyQuestions, questionNum);
-                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd
-                        (easyQuestions, questionNum).getQuestionList();
+                // متنوعة
+                int completeNum = questionNum / 3;
+                int completeEndNum = questionNum / 3;
+                int chooseNum = questionNum - (completeNum + completeEndNum);
+                generateQuestionListComplete = generateQuestion.generateQuestionListComplete(easyQuestions, 3, completeNum);
+                generateQuestionListChoose = generateQuestion.generateQuestionListChoose(easyQuestions, chooseNum);
+                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd(easyQuestions, completeEndNum);
             }
 
         } else if (questionDifficulty.equals("متوسط")) {
             if (questionType.equals("أكمل")) {
                 generateQuestionListComplete = generateQuestion.generateQuestionListComplete
-                        (mediumQuestion.subList(0, mediumQuestion.size() - 3), 3, questionNum).getQuestionList();
+                        (mediumQuestion.subList(0, mediumQuestion.size() - 3), 3, questionNum);
             } else if (questionType.equals("اختياري (اسم السورة)")) {
                 generateQuestionListChoose = generateQuestion.generateQuestionListChoose(mediumQuestion, questionNum);
             } else if (questionType.equals("أكمل نهاية الآيات")) {
                 generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd
-                        (mediumQuestion, questionNum).getQuestionList();
+                        (mediumQuestion, questionNum);
             } else {
+                // متنوعة
+                int completeNum = questionNum / 3;
+                int completeEndNum = questionNum / 3;
+                int chooseNum = questionNum - (completeNum + completeEndNum);
                 generateQuestionListComplete = generateQuestion.generateQuestionListComplete
-                        (mediumQuestion.subList(0, mediumQuestion.size() - 3), 3, questionNum).getQuestionList();
-                generateQuestionListChoose = generateQuestion.generateQuestionListChoose(mediumQuestion, questionNum);
-                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd
-                        (mediumQuestion, questionNum).getQuestionList();
+                        (mediumQuestion.subList(0, mediumQuestion.size() - 3), 3, completeNum);
+                generateQuestionListChoose = generateQuestion.generateQuestionListChoose(mediumQuestion, chooseNum);
+                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd(mediumQuestion, completeEndNum);
             }
 
         } else {
-            // متشابهات
+            // صعب
+            if (questionType.equals("أكمل")) {
+                generateQuestionListComplete = generateQuestion.generateQuestionListComplete
+                        (difficultQuestions, 3, questionNum);
+            } else if (questionType.equals("اختياري (اسم السورة)")) {
+                generateQuestionListChoose = generateQuestion.generateQuestionListChoose(difficultQuestions, questionNum);
+            } else if (questionType.equals("أكمل نهاية الآيات")) {
+                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd
+                        (difficultQuestions, questionNum);
+            } else {
+                // متنوعة
+                int completeNum = questionNum / 3;
+                int completeEndNum = questionNum / 3;
+                int chooseNum = questionNum - (completeNum + completeEndNum);
+                generateQuestionListComplete = generateQuestion.generateQuestionListComplete(difficultQuestions, 3, completeNum);
+                generateQuestionListChoose = generateQuestion.generateQuestionListChoose(difficultQuestions, chooseNum);
+                generateQuestionListCompleteEnd = generateQuestion.generateQuestionListCompleteEnd(difficultQuestions, completeEndNum);
+            }
         }
 
     }

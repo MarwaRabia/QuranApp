@@ -51,5 +51,6 @@
     <string name="plan">خطتك لحفظ القرآن</string>
     <string name="change_plan">تغيير الخطة</string>
     <string name="change_account">تغيير نوع الحساب</string>
+    <string name="change_account_text">هل تريد تغيير نوع الحساب؟ اضغط هنا</string>
 
 </resources>

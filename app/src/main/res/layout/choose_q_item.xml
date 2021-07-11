@@ -4,9 +4,8 @@
     android:id="@+id/choose_q_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_4sdp"
-    android:background="@drawable/border"
-    >
+    android:layout_margin="@dimen/_9sdp"
+    android:background="@drawable/border">
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -59,10 +58,10 @@
         android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_16ssp"
+        android:padding="@dimen/_16sdp"
         android:text="@string/test_q_choose"
         android:textColor="@color/black"
-        android:textSize="@dimen/_12ssp"
+        android:textSize="@dimen/_14ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

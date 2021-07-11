@@ -15,5 +15,6 @@
     <color name="davygrey">#595959</color>
     <color name="manatee_1">#979797</color>
     <color name="red">#F30202</color>
+    <color name="bac">#FFFFFFFF</color>
 
 </resources>

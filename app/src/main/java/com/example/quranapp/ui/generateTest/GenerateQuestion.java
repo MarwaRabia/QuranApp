@@ -26,12 +26,11 @@ public class GenerateQuestion {
     public GenerateQuestion() {
     }
 
-    public QuestionAndAnswer generateQuestionListComplete(List<String> questionsList, int numberOfAyatRequired,
-                                                          int questionNum) {
+    public ArrayList<QuestionAndAnswer> generateQuestionListComplete(List<String> questionsList, int numberOfAyatRequired,
+                                                                     int questionNum) {
         //generate questions
         ArrayList<Integer> randomList = new ArrayList<>();
-        ArrayList<String> requiredQuestion = new ArrayList<>();
-        ArrayList<String> requiredAnswers = new ArrayList<>();
+        ArrayList<QuestionAndAnswer> questionAndAnswerList = new ArrayList<>();
         Random random = new Random();
 
         for (int i = 0; i < questionNum; i++) {
@@ -75,16 +74,15 @@ public class GenerateQuestion {
                         " " + splitStartQuestion[3] + " " + splitStartQuestion[4] + " " + splitStartQuestion[5] +
                         " " + splitStartQuestion[6] + " " + splitStartQuestion[7] + " " + splitStartQuestion[8] + " " + splitStartQuestion[9];
 
-            String generateQuestion = " اكتب من قوله تعالي " + " \" " + startQuestion + " \" "
+            String question = " اكتب من قوله تعالي " + " \" " + startQuestion + " \" "
                     + " إلي قوله تعالي " + " \" " + endQuestion + " \" ";
 
-            requiredQuestion.add(generateQuestion);
-            requiredAnswers.add(answers.toString());
+            questionAndAnswerList.add(new QuestionAndAnswer(question, answers.toString()));
 
             if (randomList.size() == questionsList.size())
                 break;
         }
-        return new QuestionAndAnswer(requiredQuestion, requiredAnswers);
+        return questionAndAnswerList;
     }
 
     public ArrayList<ChooseQuestionItem> generateQuestionListChoose(ArrayList<String> questionsList, int questionNum) {
@@ -124,10 +122,10 @@ public class GenerateQuestion {
                     suraNameList.get(randomListSura.get(0)),
                     suraNameList.get(randomListSura.get(1)),
                     suraNameList.get(randomListSura.get(2)),
-                    suraNameList.get(randomListSura.get(3)));
+                    suraNameList.get(randomListSura.get(3)),
+                    suraNameList.get(suraId));
 
             requiredQuestion.add(chooseQuestionItem);
-            Log.i("generateQuestion: ", ayaQuestion);
 
             if (randomList.size() == questionsList.size())
                 break;
@@ -179,12 +177,11 @@ public class GenerateQuestion {
         return randomListSura;
     }
 
-    public QuestionAndAnswer generateQuestionListCompleteEnd(ArrayList<String> questionsList,
-                                                             int questionNum) {
+    public ArrayList<QuestionAndAnswer> generateQuestionListCompleteEnd(ArrayList<String> questionsList,
+                                                                        int questionNum) {
         //generate questions
         ArrayList<Integer> randomList = new ArrayList<>();
-        ArrayList<String> requiredQuestion = new ArrayList<>();
-        ArrayList<String> requiredAnswers = new ArrayList<>();
+        ArrayList<QuestionAndAnswer> questionAndAnswerList = new ArrayList<>();
         Random random = new Random();
 
         for (int i = 0; i < questionNum; i++) {
@@ -207,23 +204,21 @@ public class GenerateQuestion {
                     question.append(" ").append(splitQuestion[j]);
                 }
 
-                question.append("......");
-                requiredQuestion.add(question.toString());
-                requiredAnswers.add(ayaQuestion);
+                question.append(" ................. ");
+                questionAndAnswerList.add(new QuestionAndAnswer(question.toString(), ayaQuestion));
             }
 
             if (randomList.size() == questionsList.size())
                 break;
         }
 
-        return new QuestionAndAnswer(requiredQuestion, requiredAnswers);
+        return questionAndAnswerList;
     }
 
-    public QuestionAndAnswer generateQuestionListCompleteEnd(ArrayList<String> questionsList) {
+    public List<QuestionAndAnswer> generateQuestionListCompleteEnd(ArrayList<String> questionsList) {
         //generate questions
         ArrayList<Integer> randomList = new ArrayList<>();
-        ArrayList<String> requiredQuestion = new ArrayList<>();
-        ArrayList<String> requiredAnswers = new ArrayList<>();
+        List<QuestionAndAnswer> questionAndAnswerList = new ArrayList<>();
         Random random = new Random();
 
         for (int i = 0; i < 6; i++) {
@@ -247,16 +242,18 @@ public class GenerateQuestion {
                     question.append(" ").append(splitQuestion[j]);
                 }
 
-                requiredQuestion.add(question.toString());
-                requiredAnswers.add(splitQuestion[ayaLength - 4] + " " + splitQuestion[ayaLength - 3] + " " + splitQuestion[ayaLength - 2] + " "
-                        + splitQuestion[ayaLength - 1] + " ");
+                String answer = splitQuestion[ayaLength - 4] + " " + splitQuestion[ayaLength - 3] + " " + splitQuestion[ayaLength - 2] + " "
+                        + splitQuestion[ayaLength - 1] + " ";
+
+                questionAndAnswerList.add(new QuestionAndAnswer(question.toString(), answer));
+
             }
 
             if (randomList.size() == questionsList.size())
                 break;
         }
 
-        return new QuestionAndAnswer(requiredQuestion, requiredAnswers);
+        return questionAndAnswerList;
     }
 
 }

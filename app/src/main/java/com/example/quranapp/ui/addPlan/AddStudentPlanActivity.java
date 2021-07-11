@@ -32,7 +32,8 @@ public class AddStudentPlanActivity extends AppCompatActivity {
     private Button startHafzButton;
     private TextView planTimeTextView;
     private TextInputEditText wardCountEditText;
-    private String suraIdStart, ayaIdStart, suraIdEnd, ayaIdEnd, wardCountType, wardCount, keyIdStart, keyIdEnd;
+    private String suraIdStart, ayaIdStart, suraIdEnd, ayaIdEnd, wardCountType,
+            wardCount, keyIdStart, keyIdEnd;
     private ArrayList<Integer> ayaNumStartArrayList, ayaNumEndArrayList;
     private ArrayList<String> amountHafzTypeArrayList;
     private ArrayAdapter<Integer> ayaNumStartAdapter, ayaNumEndAdapter;
@@ -148,10 +149,6 @@ public class AddStudentPlanActivity extends AppCompatActivity {
                     planTimeTextView.setText("سيستغرق الحفظ: ");
 
                 wardCountType = amountHafzTypeArrayList.get(i);
-
-                keyIdStart = dbHandler.getKeyId(suraIdStart, ayaIdStart).toString();
-                keyIdEnd = dbHandler.getKeyId(suraIdEnd, ayaIdEnd).toString();
-
                 planTimeCount = calculatePlanTimeCount();
                 planTimeTextView.setText("سيستغرق الحفظ: " + planTimeCount + " يوما ");
             }
@@ -162,7 +159,6 @@ public class AddStudentPlanActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (suraIdStart != null && ayaIdStart != null && suraIdEnd != null
                         && ayaIdEnd != null && wardCountType != null && !wardCount.isEmpty()) {
-
                     Plan plan = new Plan(keyIdStart, keyIdEnd, wardCount, wardCountType,
                             String.valueOf(planTimeCount));
                     Gson gson = new Gson();
@@ -213,6 +209,18 @@ public class AddStudentPlanActivity extends AppCompatActivity {
     }
 
     public int calculatePlanTimeCount() {
+
+        int idStart = dbHandler.getKeyId(suraIdStart, ayaIdStart);
+        int idEnd = dbHandler.getKeyId(suraIdEnd, ayaIdEnd);
+
+        if (idStart > idEnd) {
+            keyIdStart = dbHandler.getKeyId(suraIdEnd, ayaIdEnd).toString();
+            keyIdEnd = dbHandler.getKeyId(suraIdStart, ayaIdStart).toString();
+        } else {
+            keyIdStart = dbHandler.getKeyId(suraIdStart, ayaIdStart).toString();
+            keyIdEnd = dbHandler.getKeyId(suraIdEnd, ayaIdEnd).toString();
+        }
+
         if (wardCountType.equals("صفحة")) {
             int pageStart = dbHandler.getQuranRow(keyIdStart).getPage();
             int pageEnd = dbHandler.getQuranRow(keyIdEnd).getPage();

@@ -29,8 +29,7 @@ public class StudentCompleteEndExamFragment extends Fragment {
     private EditText answerQ1EditText, answerQ2EditText, answerQ3EditText, answerQ4EditText;
     private TextView question1TextView, question2TextView, question3TextView, question4TextView;
     String keyIdStartWard, keyIdEndWard;
-    private List<String> generateQuestionListCompleteEnd;
-    private QuestionAndAnswer questionAndAnswer;
+    private List<QuestionAndAnswer> questionAndAnswerList;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,10 +90,11 @@ public class StudentCompleteEndExamFragment extends Fragment {
     }
 
     private void saveInSharedPF(String answer1, String answer2, String answer3, String answer4) {
-        String q3 = questionAndAnswer.getQuestionList().get(0);
-        String q4 = questionAndAnswer.getQuestionList().get(1);
-        String q5 = questionAndAnswer.getQuestionList().get(2);
-        String q6 = questionAndAnswer.getQuestionList().get(3);
+
+        String q3 = questionAndAnswerList.get(0).getQuestion();
+        String q4 = questionAndAnswerList.get(1).getQuestion();
+        String q5 = questionAndAnswerList.get(2).getQuestion();
+        String q6 = questionAndAnswerList.get(3).getQuestion();
         ArrayList<String> questionsList = new ArrayList<>();
         questionsList.add(q3);
         questionsList.add(q4);
@@ -109,10 +109,10 @@ public class StudentCompleteEndExamFragment extends Fragment {
         userAnswersQ3_4_5_6.add(answer4);
         PreferencesHelperImp.getInstance().setUserAnswersQ3_4_5_6(userAnswersQ3_4_5_6);
 
-        String correctAnswer3 = questionAndAnswer.getAnswerList().get(0);
-        String correctAnswer4 = questionAndAnswer.getAnswerList().get(1);
-        String correctAnswer5 = questionAndAnswer.getAnswerList().get(2);
-        String correctAnswer6 = questionAndAnswer.getAnswerList().get(3);
+        String correctAnswer3 = questionAndAnswerList.get(0).getAnswer();
+        String correctAnswer4 = questionAndAnswerList.get(1).getAnswer();
+        String correctAnswer5 = questionAndAnswerList.get(2).getAnswer();
+        String correctAnswer6 = questionAndAnswerList.get(3).getAnswer();
         ArrayList<String> correctAnswersList = new ArrayList<>();
         correctAnswersList.add(correctAnswer3);
         correctAnswersList.add(correctAnswer4);
@@ -124,7 +124,6 @@ public class StudentCompleteEndExamFragment extends Fragment {
     private void generateQuestion() {
         DbHandler dbHandler = new DbHandler(getActivity());
         dbHandler.getWritableDatabase();
-        questionAndAnswer = new QuestionAndAnswer();
         GenerateQuestion generateQuestion = new GenerateQuestion(dbHandler, getActivity());
 
         ArrayList<String> mediumQuestion = new ArrayList<>();
@@ -135,12 +134,11 @@ public class StudentCompleteEndExamFragment extends Fragment {
             Quran question = dbHandler.getQuranRow(String.valueOf(i));
             mediumQuestion.add(question.getTextEmlaey());
         }
-        questionAndAnswer = generateQuestion.generateQuestionListCompleteEnd(mediumQuestion);
-        generateQuestionListCompleteEnd = questionAndAnswer.getQuestionList();
-        question1TextView.setText(generateQuestionListCompleteEnd.get(0) + ".....");
-        question2TextView.setText(generateQuestionListCompleteEnd.get(1) + ".....");
-        question3TextView.setText(generateQuestionListCompleteEnd.get(2) + ".....");
-        question4TextView.setText(generateQuestionListCompleteEnd.get(3) + ".....");
+        questionAndAnswerList = generateQuestion.generateQuestionListCompleteEnd(mediumQuestion);
+        question1TextView.setText(questionAndAnswerList.get(0).getQuestion() + ".....");
+        question2TextView.setText(questionAndAnswerList.get(1).getQuestion() + ".....");
+        question3TextView.setText(questionAndAnswerList.get(2).getQuestion() + ".....");
+        question4TextView.setText(questionAndAnswerList.get(3).getQuestion() + ".....");
     }
 
 }
