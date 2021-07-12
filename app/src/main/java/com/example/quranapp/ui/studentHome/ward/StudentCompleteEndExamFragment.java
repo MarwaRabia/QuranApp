@@ -124,7 +124,6 @@ public class StudentCompleteEndExamFragment extends Fragment {
     private void generateQuestion() {
         DbHandler dbHandler = new DbHandler(getActivity());
         dbHandler.getWritableDatabase();
-        GenerateQuestion generateQuestion = new GenerateQuestion(dbHandler, getActivity());
 
         ArrayList<String> mediumQuestion = new ArrayList<>();
         int startKeyId = Integer.parseInt(keyIdStartWard);
@@ -134,6 +133,8 @@ public class StudentCompleteEndExamFragment extends Fragment {
             Quran question = dbHandler.getQuranRow(String.valueOf(i));
             mediumQuestion.add(question.getTextEmlaey());
         }
+
+        GenerateQuestion generateQuestion = new GenerateQuestion(dbHandler, getActivity(), startKeyId, endKeyId);
         questionAndAnswerList = generateQuestion.generateQuestionListCompleteEnd(mediumQuestion);
         question1TextView.setText(questionAndAnswerList.get(0).getQuestion() + ".....");
         question2TextView.setText(questionAndAnswerList.get(1).getQuestion() + ".....");

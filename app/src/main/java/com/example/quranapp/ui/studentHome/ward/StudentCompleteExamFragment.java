@@ -194,7 +194,6 @@ public class StudentCompleteExamFragment extends Fragment {
     private void generateQuestion() {
         DbHandler dbHandler = new DbHandler(getActivity());
         dbHandler.getWritableDatabase();
-        GenerateQuestion generateQuestion = new GenerateQuestion(dbHandler, getActivity());
 
         ArrayList<String> mediumQuestion = new ArrayList<>();
         int startKeyId = Integer.parseInt(keyIdStartWard);
@@ -204,9 +203,9 @@ public class StudentCompleteExamFragment extends Fragment {
             Quran question = dbHandler.getQuranRow(String.valueOf(i));
             mediumQuestion.add(question.getTextEmlaey());
         }
-        questionAndAnswerList = generateQuestion.generateQuestionListComplete
-                (mediumQuestion, 3, 2);
 
+        GenerateQuestion generateQuestion = new GenerateQuestion(dbHandler, getActivity(), startKeyId,endKeyId);
+        questionAndAnswerList = generateQuestion.generateQuestionListComplete(mediumQuestion, 2);
         question1TextView.setText(questionAndAnswerList.get(0).getQuestion());
         question2TextView.setText(questionAndAnswerList.get(1).getQuestion());
     }

@@ -36,7 +36,6 @@ public class FahrsFragment extends Fragment {
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         allQuranSuraRecyclerView.setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
 
-        GenerateQuestion generateQuestion = new GenerateQuestion();
         quranAdapter = new QuranAdapter(new Constant().getSuraNameList());
         quranAdapter.setParentId(R.layout.fahrs_fragment, getActivity());
         allQuranSuraRecyclerView.setAdapter(quranAdapter);
