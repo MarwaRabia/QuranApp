@@ -3,6 +3,7 @@ package com.example.quranapp.ui.showTest;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class ChooseQAdapter extends RecyclerView.Adapter<ChooseQAdapter.MyViewHo
                 choose3RadioButton, choose4RadioButton;
 
         TextView questionTextView;
+        ImageView close;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,6 +61,15 @@ public class ChooseQAdapter extends RecyclerView.Adapter<ChooseQAdapter.MyViewHo
             choose4RadioButton = itemView.findViewById(R.id.radioButton4);
 
             questionTextView = itemView.findViewById(R.id.question);
+
+            close = itemView.findViewById(R.id.image_close);
+            close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    questionList.remove(getAdapterPosition());
+                    notifyDataSetChanged();
+                }
+            });
 
         }
     }

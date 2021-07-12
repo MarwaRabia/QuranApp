@@ -18,6 +18,7 @@ import com.example.quranapp.R;
 import com.example.quranapp.db.DbHandler;
 import com.example.quranapp.db.Quran;
 import com.example.quranapp.prefs.Constant;
+import com.example.quranapp.ui.addPlan.AddStudentPlanActivity;
 import com.example.quranapp.ui.showTest.ChooseQuestionItem;
 import com.example.quranapp.ui.showTest.ShowTestActivity;
 import com.independentsoft.office.drawing.TintEffect;
@@ -243,18 +244,22 @@ public class GenerateTestActivity extends AppCompatActivity {
                         endKeyId = dbHandler.getKeyId(suraIdStart, ayaIdStart);
                     }
 
-                    GenerateQuestion generateQuestion = new GenerateQuestion(dbHandler, GenerateTestActivity.this, startKeyId, endKeyId);
-                    generateQuestion.generateQuestionTest(questionDifficulty, questionType, questionNum, questionTypeArrayList);
+                    if (endKeyId - startKeyId < 10) {
+                        Toast.makeText(GenerateTestActivity.this, "يجب ان يكون المقدار أكبر من 10 أيات", Toast.LENGTH_SHORT).show();
+                    } else {
+                        GenerateQuestion generateQuestion = new GenerateQuestion(dbHandler, GenerateTestActivity.this, startKeyId, endKeyId);
+                        generateQuestion.generateQuestionTest(questionDifficulty, questionType, questionNum, questionTypeArrayList);
 
-                    Intent intent = new Intent(GenerateTestActivity.this, ShowTestActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList("generateQuestionListChoose", generateQuestion.getGenerateQuestionListChoose());
-                    bundle.putParcelableArrayList("generateQuestionListComplete", generateQuestion.getGenerateQuestionListComplete());
-                    bundle.putParcelableArrayList("generateQuestionListCompleteEnd", generateQuestion.getGenerateQuestionListCompleteEnd());
-                    intent.putExtras(bundle);
+                        Intent intent = new Intent(GenerateTestActivity.this, ShowTestActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList("generateQuestionListChoose", generateQuestion.getGenerateQuestionListChoose());
+                        bundle.putParcelableArrayList("generateQuestionListComplete", generateQuestion.getGenerateQuestionListComplete());
+                        bundle.putParcelableArrayList("generateQuestionListCompleteEnd", generateQuestion.getGenerateQuestionListCompleteEnd());
+                        intent.putExtras(bundle);
 
-                    startActivity(intent);
-                    finish();
+                        startActivity(intent);
+                        finish();
+                    }
                 } else {
                     Toast.makeText(GenerateTestActivity.this, "Please fill all data first", Toast.LENGTH_SHORT).show();
                 }

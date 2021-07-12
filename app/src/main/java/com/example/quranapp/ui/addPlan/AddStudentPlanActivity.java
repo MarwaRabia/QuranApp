@@ -159,14 +159,28 @@ public class AddStudentPlanActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (suraIdStart != null && ayaIdStart != null && suraIdEnd != null
                         && ayaIdEnd != null && wardCountType != null && !wardCount.isEmpty()) {
-                    Plan plan = new Plan(keyIdStart, keyIdEnd, wardCount, wardCountType,
-                            String.valueOf(planTimeCount));
-                    Gson gson = new Gson();
-                    String json = gson.toJson(plan);
-                    PreferencesHelperImp.getInstance().setStudentPlan(json);
 
-                    startActivity(new Intent(AddStudentPlanActivity.this, StudentHomeActivity.class));
-                    finish();
+                    int idStart = dbHandler.getKeyId(suraIdStart, ayaIdStart);
+                    int idEnd = dbHandler.getKeyId(suraIdEnd, ayaIdEnd);
+
+                    if (idStart > idEnd) {
+                        idStart = dbHandler.getKeyId(suraIdEnd, ayaIdEnd);
+                        idEnd = dbHandler.getKeyId(suraIdStart, ayaIdStart);
+                    }
+
+                    if (idEnd - idStart < 10) {
+                        Toast.makeText(AddStudentPlanActivity.this, "يجب ان تكون مقدار الحفظ أكبر من 10 أيات", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Plan plan = new Plan(keyIdStart, keyIdEnd, wardCount, wardCountType,
+                                String.valueOf(planTimeCount));
+                        Gson gson = new Gson();
+                        String json = gson.toJson(plan);
+                        PreferencesHelperImp.getInstance().setStudentPlan(json);
+
+                        startActivity(new Intent(AddStudentPlanActivity.this, StudentHomeActivity.class));
+                        finish();
+                    }
+
                 } else {
                     Toast.makeText(AddStudentPlanActivity.this, "Please fill your data first", Toast.LENGTH_SHORT).show();
                 }

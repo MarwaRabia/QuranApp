@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,11 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quranapp.R;
 import com.example.quranapp.prefs.Constant;
 import com.example.quranapp.ui.showTest.QuranAdapter;
-import com.example.quranapp.ui.generateTest.GenerateQuestion;
 
 
 public class FahrsFragment extends Fragment {
-    private QuranAdapter quranAdapter;
+    private FahrsAdapter fahrsAdapter;
     private RecyclerView allQuranSuraRecyclerView;
 
     @Override
@@ -36,9 +34,8 @@ public class FahrsFragment extends Fragment {
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         allQuranSuraRecyclerView.setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
 
-        quranAdapter = new QuranAdapter(new Constant().getSuraNameList());
-        quranAdapter.setParentId(R.layout.fahrs_fragment, getActivity());
-        allQuranSuraRecyclerView.setAdapter(quranAdapter);
+        fahrsAdapter = new FahrsAdapter(new Constant().getSuraNameList(), getActivity());
+        allQuranSuraRecyclerView.setAdapter(fahrsAdapter);
     }
 
     @Override

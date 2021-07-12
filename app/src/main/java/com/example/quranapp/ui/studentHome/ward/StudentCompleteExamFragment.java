@@ -204,8 +204,8 @@ public class StudentCompleteExamFragment extends Fragment {
             mediumQuestion.add(question.getTextEmlaey());
         }
 
-        GenerateQuestion generateQuestion = new GenerateQuestion(dbHandler, getActivity(), startKeyId,endKeyId);
-        questionAndAnswerList = generateQuestion.generateQuestionListComplete(mediumQuestion, 2);
+        GenerateQuestion generateQuestion = new GenerateQuestion(dbHandler, getActivity(), startKeyId, endKeyId);
+        questionAndAnswerList = generateQuestion.generateQuestionListComplete(mediumQuestion, 4);
         question1TextView.setText(questionAndAnswerList.get(0).getQuestion());
         question2TextView.setText(questionAndAnswerList.get(1).getQuestion());
     }

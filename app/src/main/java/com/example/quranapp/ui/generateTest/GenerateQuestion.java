@@ -199,39 +199,53 @@ public class GenerateQuestion {
             int startKeyId = dbHandler.getKeyId(startQuestion);
             int numberOfAyatRequired = 3;
 
-            if (startKeyId + numberOfAyatRequired <= endKeyId) {
-
-                int endQuestionKeyId = startKeyId + numberOfAyatRequired;
-
-                // to get answers
-                StringBuilder answers = new StringBuilder();
-                for (int j = startKeyId; j <= endQuestionKeyId; j++) {
-                    answers.append(dbHandler.getQuranRow(String.valueOf(j)).getTextEmlaey()).append(" ");
+            while (startKeyId + numberOfAyatRequired > endKeyId) {
+                startQuestionKeyIdRandomNum = random.nextInt(questionsList.size());
+                while (randomList.contains(startQuestionKeyIdRandomNum)) {
+                    startQuestionKeyIdRandomNum = random.nextInt(questionsList.size());
+                    if (randomList.size() == questionsList.size())
+                        break;
                 }
+                randomList.add(startQuestionKeyIdRandomNum);
 
 
-                Quran quran = dbHandler.getQuranRow(String.valueOf(endQuestionKeyId));
-                String endQuestion = quran.getTextEmlaey();
+                startQuestion = questionsList.get(startQuestionKeyIdRandomNum);
+                startKeyId = dbHandler.getKeyId(startQuestion);
 
-
-                String[] splitStartQuestion = startQuestion.split("\\s+");
-                String[] splitEndQuestion = endQuestion.split("\\s+");
-
-                if (splitEndQuestion.length > 9)
-                    endQuestion = splitEndQuestion[splitEndQuestion.length - 5] + " " + splitEndQuestion[splitEndQuestion.length - 4] + " " + splitEndQuestion[splitEndQuestion.length - 3] +
-                            " " + splitEndQuestion[splitEndQuestion.length - 2] + " " + splitEndQuestion[splitEndQuestion.length - 1];
-
-                if (splitStartQuestion.length > 9)
-                    startQuestion = splitStartQuestion[0] + " " + splitStartQuestion[1] + " " + splitStartQuestion[2] +
-                            " " + splitStartQuestion[3] + " " + splitStartQuestion[4] + " " + splitStartQuestion[5] +
-                            " " + splitStartQuestion[6] + " " + splitStartQuestion[7] + " " + splitStartQuestion[8] + " " + splitStartQuestion[9];
-
-                String question = " اكتب من قوله تعالي " + " \" " + startQuestion + " \" "
-                        + " إلي قوله تعالي " + " \" " + endQuestion + " \" ";
-
-                questionAndAnswerList.add(new QuestionAndAnswer(question, answers.toString()));
-
+                if (randomList.size() == questionsList.size())
+                    break;
             }
+
+            int endQuestionKeyId = startKeyId + numberOfAyatRequired;
+
+            // to get answers
+            StringBuilder answers = new StringBuilder();
+            for (int j = startKeyId; j <= endQuestionKeyId; j++) {
+                answers.append(dbHandler.getQuranRow(String.valueOf(j)).getTextEmlaey()).append(" ");
+            }
+
+
+            Quran quran = dbHandler.getQuranRow(String.valueOf(endQuestionKeyId));
+            String endQuestion = quran.getTextEmlaey();
+
+
+            String[] splitStartQuestion = startQuestion.split("\\s+");
+            String[] splitEndQuestion = endQuestion.split("\\s+");
+
+            if (splitEndQuestion.length > 9)
+                endQuestion = splitEndQuestion[splitEndQuestion.length - 5] + " " + splitEndQuestion[splitEndQuestion.length - 4] + " " + splitEndQuestion[splitEndQuestion.length - 3] +
+                        " " + splitEndQuestion[splitEndQuestion.length - 2] + " " + splitEndQuestion[splitEndQuestion.length - 1];
+
+            if (splitStartQuestion.length > 9)
+                startQuestion = splitStartQuestion[0] + " " + splitStartQuestion[1] + " " + splitStartQuestion[2] +
+                        " " + splitStartQuestion[3] + " " + splitStartQuestion[4] + " " + splitStartQuestion[5] +
+                        " " + splitStartQuestion[6] + " " + splitStartQuestion[7] + " " + splitStartQuestion[8] + " " + splitStartQuestion[9];
+
+            String question = " اكتب من قوله تعالي " + " \" " + startQuestion + " \" "
+                    + " إلي قوله تعالي " + " \" " + endQuestion + " \" ";
+
+            questionAndAnswerList.add(new QuestionAndAnswer(question, answers.toString()));
+
             if (randomList.size() == questionsList.size())
                 break;
         }
@@ -257,11 +271,11 @@ public class GenerateQuestion {
 
 
             String ayaQuestion = questionsList.get(startQuestionKeyIdRandomNum);
-            int suraId = dbHandler.getSuraId(ayaQuestion);
+            int suraId = dbHandler.getSuraId(ayaQuestion); // البقرة (2)
 
             List<Integer> randomListSura = getRandumSura(suraId);
 
-            List<String> suraNameList = new Constant().getSuraNameList();
+            List<String> suraNameList = new Constant().getSuraNameList(); // البقرة (1)
 
 
             String[] splitQuestion = ayaQuestion.split("\\s+");
@@ -276,7 +290,7 @@ public class GenerateQuestion {
                     suraNameList.get(randomListSura.get(1)),
                     suraNameList.get(randomListSura.get(2)),
                     suraNameList.get(randomListSura.get(3)),
-                    suraNameList.get(suraId));
+                    suraNameList.get(suraId -1));
 
             requiredQuestion.add(chooseQuestionItem);
 
@@ -350,10 +364,11 @@ public class GenerateQuestion {
             String ayaQuestion = questionsList.get(startQuestionKeyIdRandomNum);
 
             String[] splitQuestion = ayaQuestion.split("\\s+");
+            int ayaLength = splitQuestion.length;
 
-            if (splitQuestion.length > 6) {
+            if (ayaLength > 4) {
                 StringBuilder question = new StringBuilder();
-                for (int j = 0; j < splitQuestion.length - 4; j++) {
+                for (int j = 0; j < ayaLength - 3; j++) {
                     question.append(" ").append(splitQuestion[j]);
                 }
 
@@ -374,7 +389,7 @@ public class GenerateQuestion {
         List<QuestionAndAnswer> questionAndAnswerList = new ArrayList<>();
         Random random = new Random();
 
-        for (int i = 0; i < 6; i++) {
+        while (questionAndAnswerList.size() < 4) {
 
             int startQuestionKeyIdRandomNum = random.nextInt(questionsList.size());
             while (randomList.contains(startQuestionKeyIdRandomNum)) {
@@ -389,17 +404,16 @@ public class GenerateQuestion {
             String[] splitQuestion = ayaQuestion.split("\\s+");
             int ayaLength = splitQuestion.length;
 
-            if (ayaLength > 6) {
+            if (ayaLength > 4) {
                 StringBuilder question = new StringBuilder();
-                for (int j = 0; j < ayaLength - 4; j++) {
+                for (int j = 0; j < ayaLength - 3; j++) {
                     question.append(" ").append(splitQuestion[j]);
                 }
 
-                String answer = splitQuestion[ayaLength - 4] + " " + splitQuestion[ayaLength - 3] + " " + splitQuestion[ayaLength - 2] + " "
+                String answer = splitQuestion[ayaLength - 3] + " " + splitQuestion[ayaLength - 2] + " "
                         + splitQuestion[ayaLength - 1] + " ";
 
                 questionAndAnswerList.add(new QuestionAndAnswer(question.toString(), answer));
-
             }
 
             if (randomList.size() == questionsList.size())
