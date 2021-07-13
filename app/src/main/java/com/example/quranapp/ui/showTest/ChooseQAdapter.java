@@ -39,6 +39,14 @@ public class ChooseQAdapter extends RecyclerView.Adapter<ChooseQAdapter.MyViewHo
         myViewHolder.choose2RadioButton.setText(chooseQuestionItem.getChoose2());
         myViewHolder.choose3RadioButton.setText(chooseQuestionItem.getChoose3());
         myViewHolder.choose4RadioButton.setText(chooseQuestionItem.getChoose4());
+
+        myViewHolder.close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                questionList.remove(i);
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -63,14 +71,6 @@ public class ChooseQAdapter extends RecyclerView.Adapter<ChooseQAdapter.MyViewHo
             questionTextView = itemView.findViewById(R.id.question);
 
             close = itemView.findViewById(R.id.image_close);
-            close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    questionList.remove(getAdapterPosition());
-                    notifyDataSetChanged();
-                }
-            });
-
         }
     }
 }

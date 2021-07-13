@@ -144,13 +144,13 @@ public class AddStudentPlanActivity extends AppCompatActivity {
         amountHafzTypeEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                if (!planTimeTextView.getText().toString().isEmpty())
-                    planTimeTextView.setText("سيستغرق الحفظ: ");
-
                 wardCountType = amountHafzTypeArrayList.get(i);
-                planTimeCount = calculatePlanTimeCount();
-                planTimeTextView.setText("سيستغرق الحفظ: " + planTimeCount + " يوما ");
+
+            /*    if (!planTimeTextView.getText().toString().isEmpty())
+                    planTimeTextView.setText("سيستغرق الحفظ: ");
+*/
+                //   planTimeCount = calculatePlanTimeCount();
+                //  planTimeTextView.setText("سيستغرق الحفظ: " + planTimeCount + " يوما ");
             }
         });
 

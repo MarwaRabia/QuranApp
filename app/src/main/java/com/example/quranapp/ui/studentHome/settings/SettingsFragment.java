@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.quranapp.R;
 import com.example.quranapp.db.DbHandler;
 import com.example.quranapp.db.Quran;
+import com.example.quranapp.prefs.Constant;
 import com.example.quranapp.prefs.PreferencesHelperImp;
 import com.example.quranapp.ui.addPlan.AddStudentPlanActivity;
 import com.example.quranapp.ui.addPlan.Plan;
@@ -55,7 +56,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // to change Account type
-                PreferencesHelperImp.getInstance().removeAllValues();
+                PreferencesHelperImp.getInstance().removeKey(new Constant().ACCOUNT_TYPE);
                 startActivity(new Intent(getActivity(), StartActivity.class));
                 getActivity().finish();
             }

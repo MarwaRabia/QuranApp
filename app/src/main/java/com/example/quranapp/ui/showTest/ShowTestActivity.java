@@ -81,15 +81,11 @@ public class ShowTestActivity extends AppCompatActivity {
     private void setUpRecyclerView() {
 
         if (generateListComplete != null) {
-            List<String> generateQuestionListComplete = new ArrayList<>();
             LinearLayoutManager layoutManager
                     = new LinearLayoutManager(ShowTestActivity.this, LinearLayoutManager.VERTICAL, false);
             completeQRecyclerView.setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
 
-            for (int i = 0; i < generateListComplete.size(); i++) {
-                generateQuestionListComplete.add(generateListComplete.get(i).getQuestion());
-            }
-            quranAdapter = new QuranAdapter(generateQuestionListComplete);
+            quranAdapter = new QuranAdapter(generateListComplete);
             completeQRecyclerView.setAdapter(quranAdapter);
 
             completeQRecyclerView.setVisibility(View.VISIBLE);
@@ -100,16 +96,12 @@ public class ShowTestActivity extends AppCompatActivity {
         }
 
         if (generateListCompleteEnd != null) {
-            List<String> generateQuestionListCompleteEnd = new ArrayList<>();
 
             LinearLayoutManager layoutManager
                     = new LinearLayoutManager(ShowTestActivity.this, LinearLayoutManager.VERTICAL, false);
             endOfAyaCompleteRecyclerView.setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
 
-            for (int i = 0; i < generateListCompleteEnd.size(); i++) {
-                generateQuestionListCompleteEnd.add(generateListCompleteEnd.get(i).getQuestion());
-            }
-            quranAdapter = new QuranAdapter(generateQuestionListCompleteEnd);
+            quranAdapter = new QuranAdapter(generateListCompleteEnd);
             endOfAyaCompleteRecyclerView.setAdapter(quranAdapter);
 
             endOfAyaCompleteTextView.setVisibility(View.VISIBLE);

@@ -17,15 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quranapp.R;
 import com.example.quranapp.db.DbHandler;
 import com.example.quranapp.db.Quran;
+import com.example.quranapp.ui.generateTest.QuestionAndAnswer;
 import com.example.quranapp.ui.studentHome.fahrs.SuraFragment;
 
 import java.util.List;
 
 public class QuranAdapter extends RecyclerView.Adapter<QuranAdapter.MyViewHolder> {
 
-    private List<String> questionList;
+    private List<QuestionAndAnswer> questionList;
 
-    public QuranAdapter(List<String> questionList) {
+    public QuranAdapter(List<QuestionAndAnswer> questionList) {
         this.questionList = questionList;
     }
 
@@ -38,7 +39,15 @@ public class QuranAdapter extends RecyclerView.Adapter<QuranAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int position) {
-        myViewHolder.questionTextView.setText(questionList.get(position));
+        myViewHolder.questionTextView.setText(questionList.get(position).getQuestion());
+
+        myViewHolder.close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                questionList.remove(position);
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -55,15 +64,6 @@ public class QuranAdapter extends RecyclerView.Adapter<QuranAdapter.MyViewHolder
             super(itemView);
             questionTextView = itemView.findViewById(R.id.question);
             close = itemView.findViewById(R.id.image_close);
-
-            close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    questionList.remove(getAdapterPosition());
-                    notifyDataSetChanged();
-                }
-            });
-
         }
     }
 }

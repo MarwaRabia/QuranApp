@@ -13,6 +13,8 @@ import com.example.quranapp.prefs.Constant;
 import com.example.quranapp.prefs.PreferencesHelperImp;
 import com.example.quranapp.ui.addPlan.AddStudentPlanActivity;
 import com.example.quranapp.ui.sheikhHome.SheikhHomeActivity;
+import com.example.quranapp.ui.splash.SplashActivity;
+import com.example.quranapp.ui.studentHome.StudentHomeActivity;
 import com.google.android.material.card.MaterialCardView;
 
 public class StartActivity extends AppCompatActivity {
@@ -60,9 +62,17 @@ public class StartActivity extends AppCompatActivity {
                     PreferencesHelperImp.getInstance().setAccountType(new Constant().SHEIKH);
                 } else if (studentCardView.isChecked()) {
                     //student
-                    startActivity(new Intent(StartActivity.this, AddStudentPlanActivity.class));
-                    finish();
                     PreferencesHelperImp.getInstance().setAccountType(new Constant().STUDENT);
+
+                    String studentPlan = PreferencesHelperImp.getInstance().getStudentPlan();
+                    if (studentPlan != null) {
+                        startActivity(new Intent(StartActivity.this, StudentHomeActivity.class));
+                        finish();
+                    } else {
+                        startActivity(new Intent(StartActivity.this, AddStudentPlanActivity.class));
+                        finish();
+                    }
+
                 } else {
                     Toast.makeText(StartActivity.this, "من فضلك اختار أولا ", Toast.LENGTH_SHORT).show();
                 }
